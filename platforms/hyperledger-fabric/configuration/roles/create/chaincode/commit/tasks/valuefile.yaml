@@ -50,7 +50,8 @@
 # Create endorser certs secret
 - name: "Create endorser certs secret"
   include_role:
-    name: create/k8s_secrets
+    # name: create/k8s_secrets
+    name: "{{ playbook_dir }}/../../shared/configuration/roles/create/shared_k8s_secrets"
   vars: 
     namespace: "{{ org.name |lower }}-net"
     component_name: "{{ org.name | lower}}-net"
@@ -82,6 +83,7 @@
     component_chaincode: "{{ chaincode }}"
     endorsers_list: "{{ endorsers_orgs }}"
     values_dir: "{{playbook_dir}}/../../../{{org.gitops.release_dir}}/{{ org.name | lower }}"
+    env_type: "{{ network.env.type }}"
   when: chaincode is defined and commit_chaincode.resources|length == 0
 
 # Git Push : Push the above generated files to git directory 
