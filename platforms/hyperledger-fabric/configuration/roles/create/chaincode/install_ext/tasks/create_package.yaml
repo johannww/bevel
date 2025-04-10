@@ -22,6 +22,7 @@
     echo '{"path":"","type":"external","label":"'{{ package_name }}'"}' > metadata.json;
   when: chaincode.tls
 
+# TODO: for fabric v3.1, type should be "ccaas", not "external"
 # Pack the external chaincode details without tls
 - name: Generation chaincode connection details without TLS
   shell: |
