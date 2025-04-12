@@ -92,7 +92,7 @@
 # Package and installs external chaincode 
 - name: Fetch the ccid from the Peer CLI
   shell: |
-    export PEER_CLI=$(KUBECONFIG={{ kubernetes.config_file }} kubectl get po -n {{ org_ns }} | grep "{{ peer.name }}-cli" | awk '{print $1}')
+    export PEER_CLI=$(KUBECONFIG={{ kubernetes.config_file }} kubectl get po -n {{ org_ns }} | grep "cli-{{ peer.name }}" | awk '{print $1}')
     KUBECONFIG={{ kubernetes.config_file }} kubectl exec -it -n {{ org_ns }} ${PEER_CLI} -- peer lifecycle chaincode queryinstalled | grep {{ chaincode_name }}_{{ chaincode_version }} | awk '{print $3}' | sed 's/, / /g'  > ./build/ccid.txt
   when: ext_chaincode_server.resources|length == 0
 
