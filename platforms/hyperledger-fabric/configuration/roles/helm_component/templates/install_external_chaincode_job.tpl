@@ -34,9 +34,8 @@ spec:
       role: vault-role
       address: {{ vault.url }}
       authpath: {{ org.k8s.cluster_id | default('')}}{{ network.env.type }}{{ org.name | lower }}
-      chaincodesecretprefix: {{ vault.secret_path | default('secretsv2') }}/data/{{ item.name | lower }}/peerOrganizations/{{ namespace }}/peers/{{ peer_name }}.{{ namespace }}/chaincodes
-      adminsecretprefix: {{ vault.secret_path | default('secretsv2') }}/data/{{ item.name | lower }}/peerOrganizations/{{ namespace }}/users/admin 
-      orderersecretprefix: {{ vault.secret_path | default('secretsv2') }}/data/{{ item.name | lower }}/peerOrganizations/{{ namespace }}/orderer
+      chaincodesecretprefix: {{ vault.secret_path | default('secretsv2') }}/{{ env_type }}{{ org.name | lower }}/chaincodes
+      adminsecretprefix: {{ vault.secret_path | default('secretsv2') }}/data/{{ env_type }}{{ org.name | lower }}/users/admin
       serviceaccountname: vault-auth
       type: {{ vault.type | default("hashicorp") }}
 {% if network.docker.username is defined and network.docker.password is defined %}
@@ -44,9 +43,9 @@ spec:
 {% else %}
       imagesecretname: ""
 {% endif %}
-      secretgitprivatekey: {{ vault.secret_path | default('secretsv2') }}/data/{{ item.name | lower }}/credentials/{{ namespace }}/git?git_password
+      secretgitprivatekey: {{ vault.secret_path | default('secretsv2') }}/data/{{ env_type }}{{ org.name | lower }}/credentials/{{ namespace }}/git
       tls: false
-      chaincodepackageprefix: {{ vault.secret_path | default('secretsv2') }}/data/{{ item.name | lower }}/peerOrganizations/{{ namespace }}/chaincodes/{{ component_chaincode.name | lower | e }}/package/v{{ component_chaincode.version }}
+      chaincodepackageprefix: {{ vault.secret_path | default('secretsv2') }}/data/{{ env_type }}{{ org.name | lower }}/chaincodes/{{ component_chaincode.name | lower | e }}/package/v{{ component_chaincode.version }}
     chaincode:
       name: {{ component_chaincode.name | lower | e }}
       version: {{ component_chaincode.version }}
