@@ -18,6 +18,14 @@
   when: 
     - chaincode.buildpack_path is defined
 
+# Copy buildpack for external chaincode
+- name: Use the peer's default ccaas builder
+  shell: |
+    KUBECONFIG={{ kubernetes.config_file }} kubectl exec -i -n {{ org_ns }} fabric-peernode-{{ peer.name }}-0 -c {{ peer.name }} -- mkdir -p /var/hyperledger/production/buildpacks/sampleBuilder/
+    KUBECONFIG={{ kubernetes.config_file }} kubectl exec -i -n {{ org_ns }} fabric-peernode-{{ peer.name }}-0 -c {{ peer.name }} -- cp -r /opt/hyperledger/ccaas_builder/bin /var/hyperledger/production/buildpacks/sampleBuilder/bin
+  when: 
+    - chaincode.buildpack_path is not defined or chaincode.buildpack_path == ""
+
 # Create value file for chaincode installation
 - name: "Create value file for chaincode installation"
   include_role:
