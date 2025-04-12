@@ -9,6 +9,8 @@
   shell: |
     export CA_TOOL_CLI=$(KUBECONFIG={{ kubernetes.config_file }} kubectl get po -n {{ org_ns }} | grep "ca-tools" | awk '{print $1}');
     KUBECONFIG={{ kubernetes.config_file }} kubectl cp {{ org_ns }}/${CA_TOOL_CLI}:crypto-config/peerOrganizations/{{ org_ns }}/users/{{ first_peer.name }}-{{ chaincode.name }}@{{ org_ns }}/tls {{ package_dir }};
+  # TODO: johann: i have not yet tested a ccaas with tls
+  when: chaincode.tls
 
 # Pack the external chaincode details
 - name: Generation chaincode connection details with mTLS
