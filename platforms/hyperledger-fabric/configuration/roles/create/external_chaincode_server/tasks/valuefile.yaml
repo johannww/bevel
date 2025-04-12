@@ -115,7 +115,7 @@
 # Create the docker pull credentials for private image registry
 - name: Create the private registry pull credentials
   shell: |
-    KUBECONFIG={{ kubernetes.config_file }} kubectl create secret -n {{ component_name }} docker-registry chaincode-private-regcred --docker-server={{ chaincode.registry.server }} --docker-username={{ chaincode.registry.username }} --docker-password={{ chaincode.registry.password }} --docker-email="test@abc.mail"
+    KUBECONFIG={{ kubernetes.config_file }} kubectl create secret -n {{ component_name }} docker-registry chaincode-private-regcred --docker-server={{ chaincode.registry.url }} --docker-username={{ chaincode.registry.username }} --docker-password={{ chaincode.registry.password }} --docker-email="test@abc.mail"
   vars:
     component_name: "{{ org.name | lower }}-net"
   when: 
