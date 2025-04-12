@@ -36,6 +36,7 @@
     peer_address: "{{ peer.name }}.{{ namespace }}:{{ peer.grpc.port }}"
     component_name: "instextcc-{{ peer.name }}-{{ chaincode.name }}-{{ chaincode.version | replace('.','-')}}"
     component_chaincode: "{{ chaincode }}"
+    env_type: "{{ network.env.type }}"
 
 # Git Push : Push the above generated files to git directory 
 - name: Git Push
