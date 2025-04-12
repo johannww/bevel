@@ -64,7 +64,6 @@
     release_dir: "./build/{{ org.name }}"
     orderer: "{{ network.orderers | first }}"
   when:
-    - org.type == "peer"
     - existing_cli.resources|length == 0
 
 # Start cli for updating the chaincode
