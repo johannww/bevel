@@ -61,7 +61,7 @@
     vault: "{{ org.vault }}"
     channel_name: "{{ chaincode.name }}"
     storage_class: "{{ org.name | lower }}-bevel-storageclass"
-    release_dir: "./build"
+    release_dir: "./build/{{ org.name }}"
     orderer: "{{ network.orderers | first }}"
   when:
     - org.type == "peer"
