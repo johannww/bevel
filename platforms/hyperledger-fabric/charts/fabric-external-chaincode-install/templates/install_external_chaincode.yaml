@@ -60,8 +60,6 @@ spec:
           value: "{{ $.Values.vault.chaincodesecretprefix }}"
         - name: VAULT_PEER_SECRET_PREFIX
           value: "{{ $.Values.vault.adminsecretprefix }}"
-        - name: VAULT_ORDERER_SECRET_PREFIX
-          value: "{{ $.Values.vault.orderersecretprefix }}"
         - name: CHAINCODE_NAME
           value: "{{ $.Values.chaincode.name }}"
         - name: MOUNT_PATH
@@ -81,16 +79,8 @@ spec:
           # Calling a function to retrieve the vault token.
           vaultBevelFunc "init"
 
-          echo "Getting Orderer TLS certificates from Vault."
-          vaultBevelFunc "readJson" "${VAULT_ORDERER_SECRET_PREFIX}/tls"
-
-          TLS_CA_CERT=$(echo ${VAULT_SECRET} | jq -r '.["ca.crt"]')
-          OUTPUT_PATH="${MOUNT_PATH}/orderer/tls"
-          mkdir -p ${OUTPUT_PATH}
-          echo "${TLS_CA_CERT}" >> ${OUTPUT_PATH}/ca.crt
-
           echo "Getting MSP certificates from Vault."
-          vaultBevelFunc "readJson" "${VAULT_PEER_SECRET_PREFIX}/msp"
+          vaultBevelFunc "readJson" "${VAULT_PEER_SECRET_PREFIX}-msp"
 
           ADMINCERT=$(echo ${VAULT_SECRET} | jq -r '.["admincerts"]')
           CACERTS=$(echo ${VAULT_SECRET} | jq -r '.["cacerts"]')
@@ -231,8 +221,6 @@ spec:
           value: "{{ $.Values.peer.tlsstatus }}"
         - name: CORE_PEER_TLS_ROOTCERT_FILE
           value: /opt/gopath/src/github.com/hyperledger/fabric/crypto/admin/msp/cacerts/ca.crt
-        - name: ORDERER_CA
-          value: /opt/gopath/src/github.com/hyperledger/fabric/crypto/orderer/tls/ca.crt
         - name: CORE_PEER_MSPCONFIGPATH
           value: /opt/gopath/src/github.com/hyperledger/fabric/crypto/admin/msp
         - name: CHAINCODE_CERTS_PATH
