@@ -86,7 +86,6 @@
   retries: "{{ network.env.retry_count }}"
   delay: 20
   when:
-    - org.type == "peer"
     - existing_cli.resources|length == 0
 
 # Package and installs external chaincode 
