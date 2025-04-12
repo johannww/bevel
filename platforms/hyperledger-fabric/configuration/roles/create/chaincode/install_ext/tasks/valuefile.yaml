@@ -9,10 +9,10 @@
 # Copy buildpack for external chaincode
 - name: Copy buildpack for external chaincode
   shell: |
-    KUBECONFIG={{ kubernetes.config_file }} kubectl exec -i -n {{ org_ns }} {{ peer.name }}-0 -c {{ peer.name }} -- mkdir -p /var/hyperledger/production/buildpacks/sampleBuilder/bin
-    KUBECONFIG={{ kubernetes.config_file }} kubectl cp {{ chaincode.buildpack_path }}/. {{ org_ns }}/{{ peer.name }}-0:/var/hyperledger/production/buildpacks/sampleBuilder/bin -c {{ peer.name }}
-    KUBECONFIG={{ kubernetes.config_file }} kubectl exec -i -n {{ org_ns }} {{ peer.name }}-0 -c {{ peer.name }} -- sh -c  "cd /var/hyperledger/production/buildpacks/sampleBuilder/bin && mv */* ./"
-    KUBECONFIG={{ kubernetes.config_file }} kubectl exec -i -n {{ org_ns }} {{ peer.name }}-0 -c {{ peer.name }} -- chmod -R 777 /var/hyperledger/production/buildpacks/sampleBuilder/bin/
+    KUBECONFIG={{ kubernetes.config_file }} kubectl exec -i -n {{ org_ns }} fabric-peernode-{{ peer.name }}-0 -c {{ peer.name }} -- mkdir -p /var/hyperledger/production/buildpacks/sampleBuilder/bin
+    KUBECONFIG={{ kubernetes.config_file }} kubectl cp {{ chaincode.buildpack_path }}/. {{ org_ns }}/fabric-peernode-{{ peer.name }}-0:/var/hyperledger/production/buildpacks/sampleBuilder/bin -c {{ peer.name }}
+    KUBECONFIG={{ kubernetes.config_file }} kubectl exec -i -n {{ org_ns }} fabric-peernode-{{ peer.name }}-0 -c {{ peer.name }} -- sh -c  "cd /var/hyperledger/production/buildpacks/sampleBuilder/bin && mv */* ./"
+    KUBECONFIG={{ kubernetes.config_file }} kubectl exec -i -n {{ org_ns }} fabric-peernode-{{ peer.name }}-0 -c {{ peer.name }} -- chmod -R 777 /var/hyperledger/production/buildpacks/sampleBuilder/bin/
   when: 
     - chaincode.buildpack_path is defined
 
