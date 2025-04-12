@@ -21,7 +21,6 @@
   include_role:
     name: helm_component
   vars:
-    envspace: "{{ envspace }}"
     type: "install_external_chaincode_job"
     peer_name: "{{ peer.name }}"
     peer_address: "{{ peer.name }}.{{ namespace }}:{{ peer.grpc.port }}"
