@@ -23,7 +23,7 @@ spec:
         version: {{ network.version }}
       images:
         external_chaincode: {{ chaincode_image }}
-        alpineutils: {{ docker_url }}/{{ alpine_image }}
+        alpineutils: {{ docker_url }}/bevel-alpine:{{ bevel_alpine_version }}
 
     chaincode:
       name: {{ chaincode.name }}
