@@ -37,8 +37,8 @@ spec:
     vault:
       role: vault-role
       address: {{ vault.url }}
-      authpath: {{ item.k8s.cluster_id | default('')}}{{ network.env.type }}{{ item.name | lower }}
-      chaincodesecretprefix: {{ vault.secret_path | default('secretsv2') }}/data/{{ item.name | lower }}/peerOrganizations/{{ namespace }}/chaincodes/{{ chaincode.name }}/certificate/v{{ chaincode.version }}
+      authpath: {{ org.k8s.cluster_id | default('')}}{{ network.env.type }}{{ org.name | lower }}
+      chaincodesecretprefix: {{ vault.secret_path | default('secretsv2') }}/data/{{ org.name | lower }}/peerOrganizations/{{ namespace }}/chaincodes/{{ chaincode.name }}/certificate/v{{ chaincode.version }}
       serviceaccountname: vault-auth
       type: {{ vault.type | default("hashicorp") }}
 {% if chaincode.private_registry is not defined or chaincode.private_registry == false %}   
