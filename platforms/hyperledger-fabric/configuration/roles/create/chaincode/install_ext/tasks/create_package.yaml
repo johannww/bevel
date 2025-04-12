@@ -21,7 +21,7 @@
       --arg c_crt "$(cat ./client.crt)" \
       --arg ca_crt "$(cat ./ca.crt)" \
       '{"address": $cc_addr, "dial_timeout":"10s", "tls_required":true, "client_auth_required":true, "client_key":$c_key, "client_cert":$c_crt, "root_cert":$ca_crt}' > connection.json
-    echo '{"path":"","type":"external","label":"'{{ package_name }}'"}' > metadata.json;
+    echo '{"path":"","type":"ccaas","label":"'{{ package_name }}'"}' > metadata.json;
   when: chaincode.tls
 
 # TODO: for fabric v3.1, type should be "ccaas", not "external"
@@ -31,7 +31,7 @@
     CHAINCODE_ADDR=cc-{{ chaincode_name }}.{{ org_ns }}.svc.cluster.local:7052
     cd {{ package_dir }}
     echo '{"address":"'${CHAINCODE_ADDR}'","dial_timeout":"10s","tls_required":false,"client_auth_required":false,"client_key":"","client_cert":"","root_cert":""}' > connection.json
-    echo '{"path":"","type":"external","label":"'{{ package_name }}'"}' > metadata.json
+    echo '{"path":"","type":"ccaas","label":"'{{ package_name }}'"}' > metadata.json
   when: not chaincode.tls
 
 # Pack the chaincode details file
