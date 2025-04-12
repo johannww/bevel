@@ -5,6 +5,8 @@
   register: buildpack_path_file
   failed_when:
     - buildpack_path_file.stat.exists == false
+  when:
+    - chaincode.buildpack_path is defined and chaincode.buildpack_path != ""
 
 # Copy buildpack for external chaincode
 - name: Copy buildpack for external chaincode
