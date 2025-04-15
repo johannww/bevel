@@ -63,6 +63,25 @@ spec:
     service:
       servicetype: ClusterIP
 
+    certs:
+      generateCertificates: {{ chaincode.tls | lower }}
+      orgData:
+{% if network.env.proxy == 'none' %}
+        caAddress: ca.{{ namespace }}:7054
+{% else %}
+        caAddress: ca.{{ namespace }}.{{ org.external_url_suffix }}
+{% endif %}
+        caAdminUser: {{ org_name }}-admin
+        caAdminPassword: {{ org_name }}-adminpw
+        orgName: {{ org_name }}
+        type: chaincode
+        componentSubject: "{{ component_subject | quote }}"
+      users:
+        usersList:
+          - user:
+            identity: {{ chaincode.name | lower | e }}
+            attributes:
+
 {% if network.env.labels is defined %}
     labels:
 {% if network.env.labels.service is defined %}

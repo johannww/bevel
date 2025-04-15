@@ -131,6 +131,7 @@
     type: "external_chaincode"
     component_name: "cc-{{ chaincode.name }}"
     chaincode_image: "{{ chaincode.image }}"
+    component_subject: "{{ org_subject }}"
     peer_name: "{{ peer.name }}"
     chaincode_ns: "{{ org_ns }}"
     provider: "{{ org.cloud_provider }}" 

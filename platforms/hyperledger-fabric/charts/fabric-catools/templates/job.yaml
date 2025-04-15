@@ -275,7 +275,9 @@ spec:
               if [ "$COMPONENT_TYPE" = "chaincode" ]; then
                 # Generate crypto material for chaincode
 
+                {{- if eq .Values.orgData.type "chaincode" }}
                 USER_IDENTITY={{ (index .Values.users.usersList 0).identity }}
+                {{- end }}
                 echo User identity is ${USER_IDENTITY}
                 # TODO: johann: the secret checking is not working
                 checkSecrets ${COMPONENT_TYPE}s/secrets ${USER_IDENTITY}-tls

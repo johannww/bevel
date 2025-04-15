@@ -125,7 +125,7 @@ certs:
     orgName: supplychain
     #Provide organization's type (orderer or peer)
     #Eg. type: orderer
-    type: user
+    type: chaincode
     #Provide organization's subject
     #Eg. componentSubject: "O=Orderer,L=51.50/-0.13/London,C=GB"
     componentSubject: "O=Chaincode,L=51.50/-0.13/London,C=GB"
