@@ -82,6 +82,49 @@ vault:
   #Eg. imagesecretname: regcred
   imagesecretname: ""
 
+certs:
+  # Flag indicating the creation of certificates.
+  generateCertificates: false
+  orgData:
+    caAddress: ca.supplychain-net:7051
+    caAdminUser: supplychain-admin
+    caAdminPassword: supplychain-adminpw
+    #Provide organization's name in lowercases
+    #Eg. orgName: supplychain
+    orgName: supplychain
+    #Provide organization's type (orderer or peer)
+    #Eg. type: orderer
+    type: user
+    #Provide organization's subject
+    #Eg. componentSubject: "O=Orderer,L=51.50/-0.13/London,C=GB"
+    componentSubject: "O=Chaincode,L=51.50/-0.13/London,C=GB"
+  #Provide the identity for the peer to communicate with the chaincode
+  users:
+    # Generating User Certificates with custom attributes using Fabric CA in Bevel for Peer Organizations
+    # Eg.
+    # usersList:
+    #   - user:
+    #     identity: user1
+    #     attributes:
+    #     - key: "hf.Revoker"
+    #       value: "true"
+    #   - user:
+    #     identity: user2
+    #     attributes:
+    #     - key: "hf.Revoker"
+    #       value: "true"
+    usersList:
+      - user:
+        identity: ccext
+        attributes:
+  settings:
+    #Flag to create configmaps for the organization. This flag must be set to true when installing the first orderer/peer in organization and false for others.
+    createConfigMaps: false
+    refreshCertValue: false
+    addPeerValue: false
+    removeCertsOnDelete: false
+    removeOrdererTlsOnDelete: false
+
 service:
   #Provide the servicetype for a peer
   #Eg. servicetype: NodePort

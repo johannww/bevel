@@ -145,11 +145,9 @@ certs:
     #     - key: "hf.Revoker"
     #       value: "true"
     usersList:
-      # - user:
-      #   identity: user1
-      #   attributes:
-      #   - key: "hf.Revoker"
-      #     value: "true"
+      - user:
+        identity: ccext
+        attributes:
 
   settings:
     #Flag to create configmaps for the organization. This flag must be set to true when installing the first orderer/peer in organization and false for others.
