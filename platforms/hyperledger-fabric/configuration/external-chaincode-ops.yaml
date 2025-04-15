@@ -184,6 +184,7 @@
 
     ############################################################################################
     # This task approves desired installed chaincode on the peers
+    # TODO: johann: approve only once per org
     - name: "Approve chaincode"
       include_role:
         name: "create/chaincode/approve"
