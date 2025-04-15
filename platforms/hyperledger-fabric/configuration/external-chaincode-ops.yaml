@@ -177,8 +177,9 @@
         loop_var: org
       when: org.services.peers is defined and org.services.peers | length > 0
 
-    - fail:
-        msg: "just to debug"
+    # TODO: johann: delete this later
+    # - fail:
+    #     msg: "just to debug"
 
     ############################################################################################
     # This task approves desired installed chaincode on the peers
