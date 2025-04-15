@@ -3,6 +3,7 @@
 #############################################################################################
 
 # Check if certs exists in vault.
+# TODO: johann: delete this file
 - name: check if certs exists in vault.
   shell: |
     vault kv get -field=client.key {{ vault.secret_path | default('secretsv2') }}/{{ org_name }}/peerOrganizations/{{ component_name }}/peers/{{ peer.name }}.{{ component_name }}/chaincodes/{{ chaincode.name }}

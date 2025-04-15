@@ -15,8 +15,26 @@ spec:
         kind: GitRepository
         name: flux-{{ network.env.type }}
         namespace: flux-{{ network.env.type }}
-      chart: {{ charts_dir }}/fabric-external-chaincode  
+      chart: {{ charts_dir }}/fabric-external-chaincode
   values:
+    global:
+      version: {{ network.version }}
+      serviceAccountName: vault-auth
+      cluster:
+        provider: {{ org.cloud_provider }}
+        cloudNativeServices: false
+      vault:
+        type: hashicorp
+        address: {{ vault.url }}
+        role: vault-role
+        authPath: {{ network.env.type }}{{ org_name }}
+        secretEngine: {{ vault.secret_path | default("secretsv2") }}
+        secretPrefix: "data/{{ network.env.type }}{{ org_name }}"
+        tls: false
+      proxy:
+        provider: {{ network.env.proxy | quote }}
+        externalUrlSuffix: {{ org.external_url_suffix }}
+
     metadata:
       namespace: {{ chaincode_ns }}
       network:
@@ -28,19 +46,16 @@ spec:
     chaincode:
       name: {{ chaincode.name }}
       version: {{ chaincode.version }}
-      ccid: {{ ccid.stdout | replace(',','') }} 
+      ccid: {{ ccid.stdout | default('') | replace(',','') }}
       tls: {{ chaincode.tls }}
 {% if chaincode.tls == true %}      
       crypto_mount_path: {{ chaincode.crypto_mount_path }}
 {% endif %}
 
     vault:
-      role: vault-role
-      address: {{ vault.url }}
-      authpath: {{ org.k8s.cluster_id | default('')}}{{ network.env.type }}{{ org.name | lower }}
-      chaincodesecretprefix: {{ vault.secret_path | default('secretsv2') }}/data/{{ org.name | lower }}/peerOrganizations/{{ namespace }}/chaincodes/{{ chaincode.name }}/certificate/v{{ chaincode.version }}
-      serviceaccountname: vault-auth
-      type: {{ vault.type | default("hashicorp") }}
+      # TODO: johann adjust the tls secrets prefix
+      chaincodepackageprefix: {{ vault.secret_path | default('secretsv2') }}/data/{{ network.env.type }}{{ org.name | lower }}/chaincodes/{{ chaincode.name | lower | e }}/package/v{{ chaincode.version }}
+      chaincodesecretprefix: {{ vault.secret_path | default('secretsv2') }}/data/{{ network.env.type }}{{ org.name | lower }}/chaincodes/{{ chaincode.name | lower | e }}/chaincodes/v{{ chaincode.version }}
 {% if chaincode.private_registry is not defined or chaincode.private_registry == false %}   
       imagesecretname: regcred
 {% endif %}

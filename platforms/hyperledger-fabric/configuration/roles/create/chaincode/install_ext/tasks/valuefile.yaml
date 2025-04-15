@@ -36,21 +36,25 @@
     peer_address: "{{ peer.name }}.{{ namespace }}:{{ peer.grpc.port }}"
     component_name: "instextcc-{{ peer.name }}-{{ chaincode.name }}-{{ chaincode.version | replace('.','-')}}"
     component_chaincode: "{{ chaincode }}"
+    component_subject: "{{ org_subject }}"
     env_type: "{{ network.env.type }}"
 
-# Git Push : Push the above generated files to git directory 
-- name: Git Push
-  include_role: 
-    name: "{{ playbook_dir }}/../../shared/configuration/roles/git_push"
-  vars:
-    GIT_DIR: "{{ playbook_dir }}/../../../"
-    gitops: "{{ org.gitops }}"
-    msg: "[ci skip] Pushing install external files"
+- fail:
+    msg: "just to debug"
 
-# Check or Wait if install-chaincode is already run
-- name: "Waiting for chaincode to be installed on {{ peer.name }}"
-  include_role:
-    name: "{{ playbook_dir }}/../../shared/configuration/roles/check/helm_component"
-  vars:
-    component_type: "Job"
-    component_name: "{{ 'installchaincode' if chaincode is defined and ( chaincode.external_chaincode is undefined or chaincode.external_chaincode == false ) else 'instextcc' }}-{{ peer.name }}-{{ chaincode.name }}-{{ chaincode.version }}"
+# Git Push : Push the above generated files to git directory 
+# - name: Git Push
+#   include_role: 
+#     name: "{{ playbook_dir }}/../../shared/configuration/roles/git_push"
+#   vars:
+#     GIT_DIR: "{{ playbook_dir }}/../../../"
+#     gitops: "{{ org.gitops }}"
+#     msg: "[ci skip] Pushing install external files"
+#
+# # Check or Wait if install-chaincode is already run
+# - name: "Waiting for chaincode to be installed on {{ peer.name }}"
+#   include_role:
+#     name: "{{ playbook_dir }}/../../shared/configuration/roles/check/helm_component"
+#   vars:
+#     component_type: "Job"
+#     component_name: "{{ 'installchaincode' if chaincode is defined and ( chaincode.external_chaincode is undefined or chaincode.external_chaincode == false ) else 'instextcc' }}-{{ peer.name }}-{{ chaincode.name }}-{{ chaincode.version }}"

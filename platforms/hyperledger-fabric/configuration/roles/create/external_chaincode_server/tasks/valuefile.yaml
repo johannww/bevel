@@ -89,18 +89,18 @@
     - existing_cli.resources|length == 0
 
 # Package and installs external chaincode 
-- name: Fetch the ccid from the Peer CLI
-  shell: |
-    export PEER_CLI=$(KUBECONFIG={{ kubernetes.config_file }} kubectl get po -n {{ org_ns }} | grep "cli-{{ peer.name }}" | awk '{print $1}')
-    KUBECONFIG={{ kubernetes.config_file }} kubectl exec -it -n {{ org_ns }} ${PEER_CLI} -- peer lifecycle chaincode queryinstalled | grep {{ chaincode_name }}_{{ chaincode_version }} | awk '{print $3}' | sed 's/, / /g'  > ./build/ccid.txt
-  when: ext_chaincode_server.resources|length == 0
-
+# - name: Fetch the ccid from the Peer CLI
+#   shell: |
+#     export PEER_CLI=$(KUBECONFIG={{ kubernetes.config_file }} kubectl get po -n {{ org_ns }} | grep "cli-{{ peer.name }}" | awk '{print $1}')
+#     KUBECONFIG={{ kubernetes.config_file }} kubectl exec -it -n {{ org_ns }} ${PEER_CLI} -- peer lifecycle chaincode queryinstalled | grep {{ chaincode_name }}_{{ chaincode_version }} | awk '{print $3}' | sed 's/, / /g'  > ./build/ccid.txt
+#   when: ext_chaincode_server.resources|length == 0
+#
 # Fetch the chaincode ID
-- name: Fetch the ccid to var
-  command: cat ./build/ccid.txt
-  register: ccid
-  when: ext_chaincode_server.resources|length == 0
-  failed_when: ccid.stdout == ''
+# - name: Fetch the ccid to var
+#   command: cat ./build/ccid.txt
+#   register: ccid
+#   when: ext_chaincode_server.resources|length == 0
+#   failed_when: ccid.stdout == ''
 
 # Check if private credentials exist already
 - name: "Checking if the docker credentials already exists"
@@ -135,6 +135,10 @@
     chaincode_ns: "{{ org_ns }}"
     provider: "{{ org.cloud_provider }}" 
   when: ext_chaincode_server.resources|length == 0
+
+- fail:
+    msg: "just to debug"
+
 
 # Git Push: Push the above generated files to git directory 
 - name: Git Push

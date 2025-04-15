@@ -17,6 +17,24 @@ spec:
         namespace: flux-{{ network.env.type }}
       chart: {{ charts_dir }}/fabric-external-chaincode-install
   values:
+    global:
+      version: {{ network.version }}
+      serviceAccountName: vault-auth
+      cluster:
+        provider: {{ org.cloud_provider }}
+        cloudNativeServices: false
+      vault:
+        type: hashicorp
+        address: {{ vault.url }}
+        role: vault-role
+        authPath: {{ network.env.type }}{{ org_name }}
+        secretEngine: {{ vault.secret_path | default("secretsv2") }}
+        secretPrefix: "data/{{ network.env.type }}{{ org_name }}"
+        tls: false
+      proxy:
+        provider: {{ network.env.proxy | quote }}
+        externalUrlSuffix: {{ org.external_url_suffix }}
+
     metadata:
       namespace: {{ namespace }}
       network:
@@ -31,23 +49,43 @@ spec:
       loglevel: debug
       tlsstatus: true
     vault:
-      role: vault-role
-      address: {{ vault.url }}
-      authpath: {{ org.k8s.cluster_id | default('')}}{{ network.env.type }}{{ org.name | lower }}
-      chaincodesecretprefix: {{ vault.secret_path | default('secretsv2') }}/{{ env_type }}{{ org.name | lower }}/chaincodes
+      chaincodesecret: {{ vault.secret_path | default('secretsv2') }}/data/{{ network.env.type }}{{ org.name | lower }}/chaincodes/secrets/{{ peer_name }}-{{ component_chaincode.name | lower | e }}-tls
       adminsecretprefix: {{ vault.secret_path | default('secretsv2') }}/data/{{ env_type }}{{ org.name | lower }}/users/admin
-      serviceaccountname: vault-auth
-      type: {{ vault.type | default("hashicorp") }}
 {% if network.docker.username is defined and network.docker.password is defined %}
       imagesecretname: regcred
 {% else %}
       imagesecretname: ""
 {% endif %}
       secretgitprivatekey: {{ vault.secret_path | default('secretsv2') }}/data/{{ env_type }}{{ org.name | lower }}/credentials/{{ namespace }}/git
-      tls: false
       chaincodepackageprefix: {{ vault.secret_path | default('secretsv2') }}/data/{{ env_type }}{{ org.name | lower }}/chaincodes/{{ component_chaincode.name | lower | e }}/package/v{{ component_chaincode.version }}
     chaincode:
       name: {{ component_chaincode.name | lower | e }}
       version: {{ component_chaincode.version }}
-      tls: {{ component_chaincode.tls }}
+      tls_disabled: {{ (not component_chaincode.tls) | lower }}
       address: cc-{{ component_chaincode.name | lower | e }}.{{ namespace }}.svc.cluster.local:7052
+
+    certs:
+      generateCertificates: {{ component_chaincode.tls | lower }}
+      orgData:
+{% if network.env.proxy == 'none' %}
+        caAddress: ca.{{ namespace }}:7054
+{% else %}
+        caAddress: ca.{{ namespace }}.{{ org.external_url_suffix }}
+{% endif %}
+        caAdminUser: {{ org_name }}-admin
+        caAdminPassword: {{ org_name }}-adminpw
+        orgName: {{ org_name }}
+        type: chaincode
+        componentSubject: "{{ component_subject | quote }}"
+      users:
+        usersList:
+          - user:
+            identity: {{ peer_name }}-{{ component_chaincode.name | lower | e }}
+            attributes:
+
+      settings:
+        createConfigMaps: false
+        refreshCertValue: false
+        addPeerValue: false
+        removeCertsOnDelete: false
+        removeOrdererTlsOnDelete: false

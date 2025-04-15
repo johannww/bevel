@@ -134,6 +134,7 @@
         component_type: "{{ org.type | lower}}"
         component_peers: "{{ org.services.peers }}"
         org_name: "{{ org.name | lower }}"
+        org_subject: "{{ org.subject }}"
         org_ns: "{{ org.name | lower }}-net"
         kubernetes: "{{ org.k8s }}"
         vault: "{{ org.vault }}"
@@ -146,6 +147,9 @@
       loop_control:
         loop_var: org
       when: org.services.peers is defined and org.services.peers | length > 0
+
+    # - fail:
+    #     msg: "just to debug"
 
     ############################################################################################
     # This task deploys the external chaincode server for desired org
@@ -171,6 +175,10 @@
       loop_control:
         loop_var: org
       when: org.services.peers is defined and org.services.peers | length > 0
+
+    - fail:
+        msg: "just to debug"
+
     ############################################################################################
     # This task approves desired installed chaincode on the peers
     - name: "Approve chaincode"
