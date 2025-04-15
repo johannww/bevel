@@ -53,9 +53,7 @@ spec:
 {% endif %}
 
     vault:
-      # TODO: johann adjust the tls secrets prefix
-      chaincodepackageprefix: {{ vault.secret_path | default('secretsv2') }}/data/{{ network.env.type }}{{ org.name | lower }}/chaincodes/{{ chaincode.name | lower | e }}/package/v{{ chaincode.version }}
-      chaincodesecretprefix: {{ vault.secret_path | default('secretsv2') }}/data/{{ network.env.type }}{{ org.name | lower }}/chaincodes/{{ chaincode.name | lower | e }}/chaincodes/v{{ chaincode.version }}
+      chaincodesecret: {{ vault.secret_path | default('secretsv2') }}/data/{{ network.env.type }}{{ org.name | lower }}/chaincodes/{{ chaincode.name | lower | e }}
 {% if chaincode.private_registry is not defined or chaincode.private_registry == false %}   
       imagesecretname: regcred
 {% endif %}
