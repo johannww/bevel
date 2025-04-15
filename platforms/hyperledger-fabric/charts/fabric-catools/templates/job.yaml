@@ -277,6 +277,7 @@ spec:
 
                 USER_IDENTITY={{ (index .Values.users.usersList 0).identity }}
                 echo User identity is ${USER_IDENTITY}
+                # TODO: johann: the secret checking is not working
                 checkSecrets ${COMPONENT_TYPE}s/secrets ${USER_IDENTITY}-tls
                 if  [ ! -e /crypto-config/{{ .Release.Name }}-tls-exists ] || [ "$REFRESH_CERT_VALUE" = "true" ]; then
                   cd /root/ca-tools/org
