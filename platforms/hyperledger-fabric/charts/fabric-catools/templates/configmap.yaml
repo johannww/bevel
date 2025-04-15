@@ -483,7 +483,6 @@ data:
 
     set -x
 
-    # TODO: johann: fix this inputs
     # Input parameters
     FULLY_QUALIFIED_ORG_NAME="{{ .Release.Namespace }}"
     ORG_NAME="{{ .Values.orgData.orgName }}"
