@@ -47,13 +47,13 @@ spec:
       name: {{ chaincode.name }}
       version: {{ chaincode.version }}
       ccid: {{ ccid.stdout | default('') | replace(',','') }}
-      tls: {{ chaincode.tls }}
+      tls_disabled: {{ (not chaincode.tls) | lower }}
 {% if chaincode.tls == true %}      
       crypto_mount_path: {{ chaincode.crypto_mount_path }}
 {% endif %}
 
     vault:
-      chaincodesecret: {{ vault.secret_path | default('secretsv2') }}/data/{{ network.env.type }}{{ org.name | lower }}/chaincodes/{{ chaincode.name | lower | e }}
+      chaincodesecret: {{ vault.secret_path | default('secretsv2') }}/data/{{ network.env.type }}{{ org.name | lower }}/chaincodes/secrets/{{ chaincode.name | lower | e }}-tls
 {% if chaincode.private_registry is not defined or chaincode.private_registry == false %}   
       imagesecretname: regcred
 {% endif %}

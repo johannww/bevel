@@ -56,7 +56,7 @@ spec:
         configMap:
           name: bevel-vault-script
       initContainers:
-      {{ if not .Values.chaincode.tls_disabled }}
+      {{ if not $.Values.chaincode.tls_disabled }}
       - name: certificates-init
         image: {{ $.Values.metadata.images.alpineutils }}
         imagePullPolicy: IfNotPresent
@@ -90,9 +90,9 @@ spec:
             echo "Getting chaincode certificates from Vault using key ${VAULT_CHAINCODE_SECRET}"
             vaultBevelFunc "readJson" "${VAULT_CHAINCODE_SECRET}"
             
-            CACERT=$(echo ${VAULT_SECRET} | jq -r '.["ca.crt"]')
-            CLIENT_CERT=$(echo ${VAULT_SECRET} | jq -r '.["client.crt"]')
-            CLIENT_KEY=$(echo ${VAULT_SECRET} | jq -r '.["client.key"]')
+            CACERT=$(echo ${VAULT_SECRET} | jq -r '.["ca_crt"]')
+            CLIENT_CERT=$(echo ${VAULT_SECRET} | jq -r '.["client_crt"]')
+            CLIENT_KEY=$(echo ${VAULT_SECRET} | jq -r '.["client_key"]')
 
             mkdir -p ${MOUNT_PATH}
             echo "${CACERT}" > ${MOUNT_PATH}/ca.crt
@@ -115,12 +115,6 @@ spec:
         - image: {{ $.Values.metadata.images.external_chaincode }}
           name: "{{ $.Values.chaincode.name }}-{{ $.Values.chaincode.version }}"
           imagePullPolicy: Always
-          # TODO: johann remove command and args
-          command: ["/bin/sh", "-c"]
-          args:
-            - |
-              #!/usr/bin/env sh
-              sleep infinity
           env:
             - name: CHAINCODE_ID
               valueFrom:
@@ -131,7 +125,7 @@ spec:
               value: "0.0.0.0:9999"
             - name: CHAINCODE_TLS_DISABLED
               value: "{{ $.Values.chaincode.tls_disabled }}"
-            {{ if .Values.chaincode.tls }}
+            {{ if not .Values.chaincode.tls_disabled }}
             - name: CHAINCODE_TLS_KEY
               value: "{{ $.Values.chaincode.crypto_mount_path }}/client.key"
             - name: CHAINCODE_TLS_CERT
@@ -141,7 +135,7 @@ spec:
             {{ end }}
           ports:
             - containerPort: 9999
-          {{ if .Values.chaincode.tls }}
+          {{ if not .Values.chaincode.tls_disabled }}
           volumeMounts:
           - name: certificates
             mountPath: {{ $.Values.chaincode.crypto_mount_path }}
