@@ -165,6 +165,7 @@
         component_peers: "{{ org.services.peers }}"
         org_name: "{{ org.name | lower }}"
         org_ns: "{{ org.name | lower }}-net"
+        org_subject: "{{ org.subject }}"
         kubernetes: "{{ org.k8s }}"
         vault: "{{ org.vault }}"
         peers: "{{ org.services.peers }}"
