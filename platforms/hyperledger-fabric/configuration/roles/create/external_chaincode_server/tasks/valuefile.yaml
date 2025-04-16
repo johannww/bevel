@@ -67,11 +67,6 @@
     provider: "{{ org.cloud_provider }}" 
   when: ext_chaincode_server.resources|length == 0
 
-# TODO: johann: delete this later
-# - fail:
-#     msg: "just to debug"
-
-
 # Git Push: Push the above generated files to git directory 
 - name: Git Push
   include_role: 
