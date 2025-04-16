@@ -179,6 +179,7 @@ spec:
           echo "Getting Package Base64 from Vault in ${VAULT_CHAINCODE_PACKAGE_PREFIX}"
           vaultBevelFunc "readJson" "${VAULT_CHAINCODE_PACKAGE_PREFIX}"
           if [ "$SECRETS_AVAILABLE" = "yes" ]; then
+            echo "Chaincode package found on vault. Skipping package generation."
             PACKAGE_BASE64=$(echo ${VAULT_SECRET} | jq -r '.["package-base64"]')
             echo ${PACKAGE_BASE64} | base64 -d > ${CHAINCODE_MOUNT_PATH}/${CHAINCODE_NAME}_${CHAINCODE_VERSION}.tgz
             exit 0
