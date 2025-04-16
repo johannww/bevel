@@ -104,6 +104,11 @@ spec:
           if [ "${CHAINCODE_TLS_DISABLED}" == "false" ]; then
             echo "Getting chaincode certificates from Vault."
             vaultBevelFunc "readJson" "${VAULT_CHAINCODE_PEER_SECRET_PREFIX}/peers-${CHAINCODE_NAME}-tls"
+
+            if [ "$SECRETS_AVAILABLE" != "yes" ]; then
+                echo "Peer-Chaincode TLS certificates not found in ${VAULT_CHAINCODE_PEER_SECRET_PREFIX}/peers-${CHAINCODE_NAME}-tls"
+                exit 1
+            fi
     
             CACERT=$(echo ${VAULT_SECRET} | jq -r '.["ca_crt"]')
             CLIENT_CERT=$(echo ${VAULT_SECRET} | jq -r '.["client_crt"]')
@@ -191,7 +196,6 @@ spec:
 
           PACKAGE_NAME=${CHAINCODE_NAME}_${CHAINCODE_VERSION}
 
-          # TODO: johann: test the tls case later
           if [ "${CHAINCODE_TLS_DISABLED}" == "false" ]; then
             echo "Packaging external chaincode. TLS enabled."
             CA_CERT="$(cat ${CHAINCODE_SECRET_MOUNT_PATH}/ca.crt)"

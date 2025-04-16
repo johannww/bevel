@@ -10,10 +10,6 @@ kind: ConfigMap
 metadata:
   name: crypto-scripts-cm
   namespace: {{ .Release.Namespace }}
-  annotations:
-    helm.sh/hook: pre-install
-    helm.sh/hook-weight: "-6"
-    helm.sh/hook-delete-policy: "before-hook-creation"
   labels:
     app.kubernetes.io/name: crypto-scripts
     app.kubernetes.io/instance: {{ .Release.Name }}
@@ -584,10 +580,6 @@ kind: ConfigMap
 metadata:
   name: orderer-script-store-vault
   namespace: {{ .Release.Namespace }}
-  annotations:
-    helm.sh/hook: pre-install
-    helm.sh/hook-weight: "-6"
-    helm.sh/hook-delete-policy: "before-hook-creation"
   labels:
     app.kubernetes.io/name: orderer-script-vault
     app.kubernetes.io/instance: {{ .Release.Name }}
@@ -824,10 +816,6 @@ kind: ConfigMap
 metadata:
   name: peer-script-store-vault
   namespace: {{ .Release.Namespace }}
-  annotations:
-    helm.sh/hook: pre-install
-    helm.sh/hook-weight: "-6"
-    helm.sh/hook-delete-policy: "before-hook-creation"
   labels:
     app.kubernetes.io/name: peer-script-vault
     app.kubernetes.io/instance: {{ .Release.Name }}
@@ -1053,10 +1041,6 @@ kind: ConfigMap
 metadata:
   name: users-script-store-vault
   namespace: {{ .Release.Namespace }}
-  annotations:
-    helm.sh/hook: pre-install
-    helm.sh/hook-weight: "-6"
-    helm.sh/hook-delete-policy: "before-hook-creation"
   labels:
     app.kubernetes.io/name: users-script-vault
     app.kubernetes.io/instance: {{ .Release.Name }}
@@ -1190,10 +1174,6 @@ kind: ConfigMap
 metadata:
   name: chaincode-peer-script-store-vault
   namespace: {{ .Release.Namespace }}
-  annotations:
-    helm.sh/hook: pre-install
-    helm.sh/hook-weight: "-6"
-    helm.sh/hook-delete-policy: "before-hook-creation"
   labels:
     app.kubernetes.io/name: users-script-vault
     app.kubernetes.io/instance: {{ .Release.Name }}

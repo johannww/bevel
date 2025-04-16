@@ -92,6 +92,11 @@ spec:
           if [ "${CHAINCODE_TLS_DISABLED}" == "false" ]; then
             echo "Getting chaincode certificates from Vault using key ${VAULT_CHAINCODE_SECRET}"
             vaultBevelFunc "readJson" "${VAULT_CHAINCODE_SECRET}"
+
+            if [ "$SECRETS_AVAILABLE" != "yes" ]; then
+                echo "Chaincode TLS files not found in ${VAULT_CHAINCODE_SECRET}"
+                exit 1
+            fi
             
             CACERT=$(echo ${VAULT_SECRET} | jq -r '.["ca_crt"]')
             CLIENT_CERT=$(echo ${VAULT_SECRET} | jq -r '.["client_crt"]')
