@@ -477,8 +477,8 @@ data:
   # Generates mTLS crypto both for the peers and the chaincode
   generate-crypto-peer-chaincode.sh: |-
     #!/bin/bash
-    if [ $# -lt 1 ]; then
-        echo "Usage : . $0 <namespace> <nodename> <id-name> <id-type> <affiliation> <subject> <ca-server-url>"
+    if [ $# -lt 2 ]; then
+        echo "Usage : . $0 <id-type> <id-name>"
         exit
     fi
 
