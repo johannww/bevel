@@ -1,3 +1,4 @@
+# TODO: johann delete this file
 #!/bin/bash
 if [ $# -lt 9 ]; then
 	echo "Usage : . $0 <namespace> <nodename> <chaincodeid-name> <id-type> <affiliation> <subject> <server-addr> <chaincode-version> <ca-url>"

@@ -1,3 +1,4 @@
+# TODO: johann delete this file
 #!/bin/bash
 if [ $# -lt 6 ]; then
 	echo "Usage : . generate-crypto.sh orderer|peer <namespace> <nodename> <no of peers: min 1> <affiliation> <subject> <external-url>"

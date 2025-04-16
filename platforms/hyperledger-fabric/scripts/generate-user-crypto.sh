@@ -1,3 +1,4 @@
+# TODO: johann delete this file
 #!/bin/bash
 if [ $# -lt 7 ]; then
 	echo "Usage : . $0 orderer|peer <namespace> <nodename> <user-identities> <affiliation> <subject> <ca-server-url>"
