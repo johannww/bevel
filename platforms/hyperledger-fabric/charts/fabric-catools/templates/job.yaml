@@ -279,9 +279,10 @@ spec:
                 USER_IDENTITY={{ (index .Values.users.usersList 0).identity }}
                 {{- end }}
                 echo User identity is ${USER_IDENTITY}
-                # TODO: johann: the secret checking is not working
+
                 checkSecrets ${COMPONENT_TYPE}s/secrets ${USER_IDENTITY}-tls
-                if  [ ! -e /crypto-config/{{ .Release.Name }}-tls-exists ] || [ "$REFRESH_CERT_VALUE" = "true" ]; then
+
+                if  [ ! -e /crypto-config/${USER_IDENTITY}-tls-exists ] || [ "$REFRESH_CERT_VALUE" = "true" ]; then
                   cd /root/ca-tools/org
                   ./generate-crypto-peer-chaincode.sh ${COMPONENT_TYPE} ${USER_IDENTITY}
 
