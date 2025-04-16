@@ -77,7 +77,7 @@ chaincode:
 vault:
   #Provide the value for vault secretprefix
   #Eg. chaincodesecretprefix: secretsv2/data/crypto/peerOrganizations/.../chaincodes/.../certificate/v1
-  chaincodesecret: secretsv2/data/supplychain/chaincodes/secrets/ccext
+  chaincodesecretprefix: secretsv2/data/supplychain/chaincodes/secrets
   #Provide the imagesecretname for vault
   #Eg. imagesecretname: regcred
   imagesecretname: ""

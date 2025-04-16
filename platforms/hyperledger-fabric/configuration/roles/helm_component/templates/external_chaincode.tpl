@@ -51,7 +51,7 @@ spec:
 {% endif %}
 
     vault:
-      chaincodesecret: {{ vault.secret_path | default('secretsv2') }}/data/{{ network.env.type }}{{ org.name | lower }}/chaincodes/secrets/cc-{{ chaincode.name | lower | e }}-tls
+      chaincodesecretprefix: {{ vault.secret_path | default('secretsv2') }}/data/{{ network.env.type }}{{ org.name | lower }}/chaincodes/secrets
 {% if chaincode.private_registry is not defined or chaincode.private_registry == false %}   
       imagesecretname: regcred
 {% endif %}
