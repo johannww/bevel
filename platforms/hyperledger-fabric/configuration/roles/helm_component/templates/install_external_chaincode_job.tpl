@@ -65,7 +65,7 @@ spec:
       address: cc-{{ component_chaincode.name | lower | e }}.{{ namespace }}.svc.cluster.local:7052
 
     certs:
-      generateCertificates: {{ component_chaincode.tls | lower }}
+      generateCertificates: {{ (component_chaincode.tls and install_count[component_chaincode.name] == 0) | lower }}
       orgData:
 {% if network.env.proxy == 'none' %}
         caAddress: ca.{{ namespace }}:7054

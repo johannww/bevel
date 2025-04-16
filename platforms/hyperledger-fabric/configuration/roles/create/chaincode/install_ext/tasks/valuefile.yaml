@@ -1,3 +1,13 @@
+- set_fact:
+    install_count: "{{ install_count | combine({ chaincode.name: 1 }) }}"
+  when:
+    - install_count[chaincode.name] is defined
+
+- set_fact:
+    install_count: "{{ install_count | combine({ chaincode.name: 0 }) }}"
+  when:
+    - install_count[chaincode.name] is not defined
+
 # Check if buildpack_path exists
 - name: Check if buildpack_path exists
   stat:

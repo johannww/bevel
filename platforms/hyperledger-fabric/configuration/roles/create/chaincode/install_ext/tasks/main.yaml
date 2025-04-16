@@ -1,5 +1,10 @@
 ###########################################################################################
-# Create package file
+# Track how many peers in the org installed each chaincode.
+# This is used to generate the chaincode crypto artifacts only once per organization.
+- name: Track how many peers in the org installed each chaincode
+  set_fact:
+    install_count: "{{ {} }}"
+
 # Install the external chaincode details
 - name: Install the external chaincode details
   include_tasks: nested_main.yaml
@@ -9,5 +14,5 @@
   loop: "{{ peers }}"
   loop_control:
     loop_var: peer
-  when: 
+  when:
     - peer.chaincodes is defined
