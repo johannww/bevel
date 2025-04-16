@@ -56,8 +56,8 @@ spec:
           value: {{ $.Values.global.vault.authPath }}
         - name: VAULT_APP_ROLE
           value: {{ $.Values.global.vault.role }}
-        - name: VAULT_CHAINCODE_PEER_SECRET
-          value: {{ $.Values.vault.chaincodesecret }}
+        - name: VAULT_CHAINCODE_PEER_SECRET_PREFIX
+          value: {{ $.Values.vault.peerschaincodetlssecretprefix }}
         - name: VAULT_PEER_SECRET_PREFIX
           value: "{{ $.Values.vault.adminsecretprefix }}"
         - name: CHAINCODE_NAME
@@ -103,7 +103,7 @@ spec:
 
           if [ "${CHAINCODE_TLS_DISABLED}" == "false" ]; then
             echo "Getting chaincode certificates from Vault."
-            vaultBevelFunc "readJson" "${VAULT_CHAINCODE_PEER_SECRET}"
+            vaultBevelFunc "readJson" "${VAULT_CHAINCODE_PEER_SECRET_PREFIX}/peers-${CHAINCODE_NAME}-tls"
     
             CACERT=$(echo ${VAULT_SECRET} | jq -r '.["ca_crt"]')
             CLIENT_CERT=$(echo ${VAULT_SECRET} | jq -r '.["client_crt"]')
@@ -137,7 +137,7 @@ spec:
         - name: VAULT_APP_ROLE
           value: {{ $.Values.global.vault.role }}
         - name: VAULT_CHAINCODE_PACKAGE_PREFIX
-          value: {{ $.Values.vault.chaincodepackageprefix}}
+          value: {{ $.Values.vault.chaincodepackageprefix }}
         - name: CHAINCODE_NAME
           value: "{{ $.Values.chaincode.name }}"
         - name: CHAINCODE_ADDR
@@ -176,8 +176,9 @@ spec:
           fi
           '
 
-          echo "Getting Package Base64 from Vault in ${VAULT_CHAINCODE_PACKAGE_PREFIX}"
-          vaultBevelFunc "readJson" "${VAULT_CHAINCODE_PACKAGE_PREFIX}"
+          VAULT_CHAINCODE_PACKAGE="${VAULT_CHAINCODE_PACKAGE_PREFIX}/${CHAINCODE_NAME}/package/v${CHAINCODE_VERSION}"
+          echo "Getting Package Base64 from Vault in ${VAULT_CHAINCODE_PACKAGE}"
+          vaultBevelFunc "readJson" "${VAULT_CHAINCODE_PACKAGE}"
           if [ "$SECRETS_AVAILABLE" = "yes" ]; then
             echo "Chaincode package found on vault. Skipping package generation."
             PACKAGE_BASE64=$(echo ${VAULT_SECRET} | jq -r '.["package-base64"]')
@@ -185,7 +186,7 @@ spec:
             exit 0
           fi
 
-          echo "Package Base64 not found in ${VAULT_CHAINCODE_PACKAGE_PREFIX}"
+          echo "Package Base64 not found in ${VAULT_CHAINCODE_PACKAGE}"
           echo "Building the package for the chaincode"
 
           PACKAGE_NAME=${CHAINCODE_NAME}_${CHAINCODE_VERSION}
@@ -228,7 +229,7 @@ spec:
               }
           }" > payload.json
           cat payload.json
-          vaultBevelFunc "write" "${VAULT_CHAINCODE_PACKAGE_PREFIX}" "payload.json"
+          vaultBevelFunc "write" "${VAULT_CHAINCODE_PACKAGE}" "payload.json"
 
           kubectl -n {{ $.Values.metadata.namespace }} create configmap {{ $.Values.chaincode.name }}-{{ $.Values.chaincode.version }}-package-id --from-literal=package-id=${PACKAGE_ID}
         volumeMounts:

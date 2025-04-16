@@ -49,7 +49,7 @@ spec:
       loglevel: debug
       tlsstatus: true
     vault:
-      chaincodesecret: {{ vault.secret_path | default('secretsv2') }}/data/{{ network.env.type }}{{ org.name | lower }}/chaincodes/secrets/peers-{{ component_chaincode.name | lower | e }}-tls
+      peerschaincodetlssecretprefix: {{ vault.secret_path | default('secretsv2') }}/data/{{ network.env.type }}{{ org.name | lower }}/chaincodes/secrets
       adminsecretprefix: {{ vault.secret_path | default('secretsv2') }}/data/{{ env_type }}{{ org.name | lower }}/users/admin
 {% if network.docker.username is defined and network.docker.password is defined %}
       imagesecretname: regcred
@@ -57,7 +57,7 @@ spec:
       imagesecretname: ""
 {% endif %}
       secretgitprivatekey: {{ vault.secret_path | default('secretsv2') }}/data/{{ env_type }}{{ org.name | lower }}/credentials/{{ namespace }}/git
-      chaincodepackageprefix: {{ vault.secret_path | default('secretsv2') }}/data/{{ env_type }}{{ org.name | lower }}/chaincodes/{{ component_chaincode.name | lower | e }}/package/v{{ component_chaincode.version }}
+      chaincodepackageprefix: {{ vault.secret_path | default('secretsv2') }}/data/{{ env_type }}{{ org.name | lower }}/chaincodes
     chaincode:
       name: {{ component_chaincode.name | lower | e }}
       version: {{ component_chaincode.version }}

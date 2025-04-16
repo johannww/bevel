@@ -78,8 +78,8 @@ peer:
   tlsstatus: true
 
 vault:
-  # Vault secretprefix for chaincode
-  chaincodesecret: secretsv2/data/supplychain/chaincodes/secrets/peers-ccext-tls
+  # Vault secretprefix for peers' mTLS secret
+  peerschaincodetlssecretprefix: secretsv2/data/supplychain/chaincodes/secrets
   #Provide the value for vault secretprefix
   #Eg. adminsecretprefix: secretsv2/data/crypto/peerOrganizations/.../users/admin
   adminsecretprefix: secretsv2/data/supplychain/users/admin
@@ -93,10 +93,8 @@ vault:
   #Eg. secretgitprivatekey: secret/credentials/org1-net/git?ssh-key
   secretgitprivatekey: secretsv2/data/credentials/org1-net/git?git_password
   #Provide the path of the package details saved in base64 format
-  #Eg. secretgitprivatekey: secretsv2/data/crypto/peerOrganizations/org1-net/.../example/package/v1
-  chaincodepackageprefix: secretsv2/data/supplychain/chaincodes/ccext/package/v1
-  # Provide the path of the secrets for mTLS peer credentials
-  peerchaincodesecretprefix: secretsv2/data/supplychain/peers/peer0/chaincodes/ccext
+  #Eg. chaincodepackageprefix: secretsv2/data/supplychain/chaincodes
+  chaincodepackageprefix: secretsv2/data/supplychain/chaincodes
 
 chaincode:
   #Provide the name of the chaincode to be installed
