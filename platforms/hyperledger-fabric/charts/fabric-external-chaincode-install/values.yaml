@@ -79,7 +79,7 @@ peer:
 
 vault:
   # Vault secretprefix for chaincode
-  chaincodesecret: secretsv2/data/supplychain/chaincodes/secrets/peer0-ccext-tls
+  chaincodesecret: secretsv2/data/supplychain/chaincodes/secrets/peers-ccext-tls
   #Provide the value for vault secretprefix
   #Eg. adminsecretprefix: secretsv2/data/crypto/peerOrganizations/.../users/admin
   adminsecretprefix: secretsv2/data/supplychain/users/admin
@@ -115,6 +115,8 @@ chaincode:
 
 certs:
   # Flag indicating the creation of certificates.
+  # NOTE: Only enable for the first peer in the organization,
+  # if using mTLS.
   generateCertificates: false
   orgData:
     caAddress: ca.supplychain-net:7051

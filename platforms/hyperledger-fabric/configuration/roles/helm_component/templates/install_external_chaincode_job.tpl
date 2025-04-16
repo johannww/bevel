@@ -49,7 +49,7 @@ spec:
       loglevel: debug
       tlsstatus: true
     vault:
-      chaincodesecret: {{ vault.secret_path | default('secretsv2') }}/data/{{ network.env.type }}{{ org.name | lower }}/chaincodes/secrets/{{ peer_name }}-{{ component_chaincode.name | lower | e }}-tls
+      chaincodesecret: {{ vault.secret_path | default('secretsv2') }}/data/{{ network.env.type }}{{ org.name | lower }}/chaincodes/secrets/peers-{{ component_chaincode.name | lower | e }}-tls
       adminsecretprefix: {{ vault.secret_path | default('secretsv2') }}/data/{{ env_type }}{{ org.name | lower }}/users/admin
 {% if network.docker.username is defined and network.docker.password is defined %}
       imagesecretname: regcred
@@ -80,7 +80,7 @@ spec:
       users:
         usersList:
           - user:
-            identity: {{ peer_name }}-{{ component_chaincode.name | lower | e }}
+            identity: peers-{{ component_chaincode.name | lower | e }}
             attributes:
 
       settings:

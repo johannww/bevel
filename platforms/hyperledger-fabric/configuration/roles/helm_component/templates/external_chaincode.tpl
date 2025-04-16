@@ -51,7 +51,7 @@ spec:
 {% endif %}
 
     vault:
-      chaincodesecret: {{ vault.secret_path | default('secretsv2') }}/data/{{ network.env.type }}{{ org.name | lower }}/chaincodes/secrets/{{ chaincode.name | lower | e }}-tls
+      chaincodesecret: {{ vault.secret_path | default('secretsv2') }}/data/{{ network.env.type }}{{ org.name | lower }}/chaincodes/secrets/cc-{{ chaincode.name | lower | e }}-tls
 {% if chaincode.private_registry is not defined or chaincode.private_registry == false %}   
       imagesecretname: regcred
 {% endif %}
@@ -77,7 +77,7 @@ spec:
       users:
         usersList:
           - user:
-            identity: {{ chaincode.name | lower | e }}
+            identity: cc-{{ chaincode.name | lower | e }}
             attributes:
 
 {% if network.env.labels is defined %}
