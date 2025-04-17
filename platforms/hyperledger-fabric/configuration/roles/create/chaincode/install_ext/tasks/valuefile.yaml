@@ -49,10 +49,6 @@
     component_subject: "{{ org_subject }}"
     env_type: "{{ network.env.type }}"
 
-# TODO: johann: delete this later
-# - fail:
-#     msg: "just to debug"
-
 # Git Push : Push the above generated files to git directory 
 - name: Git Push
   include_role: 
