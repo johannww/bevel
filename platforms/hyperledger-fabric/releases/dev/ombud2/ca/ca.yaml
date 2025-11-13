@@ -42,7 +42,7 @@ spec:
       volumeBindingMode: Immediate
       allowedTopologies:
         enabled: false
-      nameOverride: storage-ombud2-ca
+      nameOverride: ombud2-bevel-storageclass
 
     image:
       alpineUtils: ghcr.io/hyperledger/bevel-alpine:latest
