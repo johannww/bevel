@@ -42,7 +42,7 @@ spec:
       volumeBindingMode: Immediate
       allowedTopologies:
         enabled: false
-      nameOverride: storage-pm3org-ca
+      nameOverride: pm3org-bevel-storageclass
 
     image:
       alpineUtils: ghcr.io/hyperledger/bevel-alpine:latest
