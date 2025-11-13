@@ -44,6 +44,7 @@ spec:
       volumeBindingMode: Immediate 
       allowedTopologies:
         enabled: false
+      nameOverride: {{ sc_name }}
 
     certs:
       generateCertificates: true

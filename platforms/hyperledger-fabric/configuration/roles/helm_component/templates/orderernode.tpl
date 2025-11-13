@@ -39,9 +39,10 @@ spec:
     storage:
       size: 512Mi
       reclaimPolicy: "Delete" 
-      volumeBindingMode: 
+      volumeBindingMode: Immediate
       allowedTopologies:
         enabled: false
+      nameOverride: {{ sc_name }}
 
     certs:
       generateCertificates: true

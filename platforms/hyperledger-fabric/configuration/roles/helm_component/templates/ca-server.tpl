@@ -42,6 +42,7 @@ spec:
       volumeBindingMode: Immediate
       allowedTopologies:
         enabled: false
+      nameOverride: {{ sc_name }}
 
     image:
       alpineUtils: {{ docker_url }}/bevel-alpine:{{ bevel_alpine_version }}
