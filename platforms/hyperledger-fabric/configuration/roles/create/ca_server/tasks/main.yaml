@@ -24,6 +24,7 @@
 - name: "Set Variable sc_name"
   set_fact:
     sc_name: "{{ component }}-bevel-storageclass"
+    sc_enabled: false
 
 # Create the CA value file
 - name: "Create CA server values"

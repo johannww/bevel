@@ -37,6 +37,7 @@ spec:
         externalUrlSuffix: {{ org.external_url_suffix }}
 
     storage:
+      enabled: {{ sc_enabled | default('false') }}
       size: 512Mi
       reclaimPolicy: "Delete"
       volumeBindingMode: Immediate
