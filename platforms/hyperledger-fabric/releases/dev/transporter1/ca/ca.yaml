@@ -42,7 +42,7 @@ spec:
       volumeBindingMode: Immediate
       allowedTopologies:
         enabled: false
-      nameOverride: storage-transporter1-ca
+      nameOverride: transporter1-bevel-storageclass
 
     image:
       alpineUtils: ghcr.io/hyperledger/bevel-alpine:latest
