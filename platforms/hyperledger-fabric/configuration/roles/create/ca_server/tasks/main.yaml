@@ -20,6 +20,11 @@
     KUBECONFIG={{ kubernetes.config_file }} kubectl config view --minify | grep server | cut -f 2- -d ":" | tr -d " "
   register: kubernetes_server_url
 
+# Set Variable sc_name
+- name: "Set Variable sc_name"
+  set_fact:
+    sc_name: "{{ component }}-bevel-storageclass"
+
 # Create the CA value file
 - name: "Create CA server values"
   include_role:
