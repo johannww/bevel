@@ -46,7 +46,7 @@ spec:
       name: pm3package
       version: 1
       lang: node
-      maindirectory: pm3package_main
+      maindirectory: .
       repository:
         hostname: "github.com"
         git_username: "Fraktal-PM3"
