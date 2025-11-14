@@ -13,7 +13,7 @@
 # Set orderer namespace directly by finding org with services.orderers defined
 - name: "Set orderer namespace"
   set_fact:
-    orderer_namespace: "{{ item.organization.name | lower }}-net"
+    orderer_namespace: "{{ item.name | lower }}-net"
   loop: "{{ network.organizations }}"
   when: item.services.orderers is defined
 
