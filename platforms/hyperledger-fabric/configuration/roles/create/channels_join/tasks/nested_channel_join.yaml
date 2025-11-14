@@ -68,8 +68,8 @@
   vars:
     name: "{{ participant.name }}"
     type: "join_channel_job"
-    # Access peer.peer.name because of nested structure in channel participants
-    peer_name_lookup: "{{ peer.peer.name if peer.peer is defined else peer.name }}"
+    # peer is a dict with name, gossipAddress, peerAddress, and peer (null) keys
+    peer_name_lookup: "{{ peer.name }}"
     component_name: "{{ channel_name }}-{{ participant.name }}-{{ peer_name_lookup }}"
     peer_name: "{{ peer_name_lookup }}"
     # Look up peer type from organization's services.peers
