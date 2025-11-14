@@ -18,6 +18,7 @@ metadata:
     {{- include "labels.custom" . | nindent 2 }}
 spec:
   backoffLimit: 6
+  activeDeadlineSeconds: 1800
   template:
     metadata:
       labels:
