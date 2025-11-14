@@ -235,14 +235,15 @@ spec:
             
             # Check if package.json exists and install dependencies
             if [ -f "package.json" ]; then
-              # Install npm if not present - use minimal install via curl/wget
+              # Install npm if not present
               if ! command -v npm &> /dev/null; then
-                echo "npm not found, installing Node.js via binary..."
-                cd /tmp
-                wget -q https://nodejs.org/dist/v18.20.5/node-v18.20.5-linux-x64.tar.xz
-                tar -xf node-v18.20.5-linux-x64.tar.xz
-                export PATH=/tmp/node-v18.20.5-linux-x64/bin:$PATH
-                cd $GOPATH/src/github.com/chaincode/${CHAINCODE_NAME}
+                echo "npm not found, installing Node.js..."
+                # Install Node.js 18.x from NodeSource repository
+                packages_to_install="curl"
+                install_packages "$packages_to_install"
+                curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
+                packages_to_install="nodejs"
+                install_packages "$packages_to_install"
               fi
               
               echo "Running npm install..."
