@@ -10,10 +10,10 @@
 ##############################################################################################
 
 ---
-# Set orderer namespace directly
+# Set orderer namespace directly by finding org with services.orderers defined
 - name: "Set orderer namespace"
   set_fact:
-    orderer_namespace: "{{ (network | json_query('organizations[?type==`orderer`]') | first).name | lower }}-net"
+    orderer_namespace: "{{ (network.organizations | selectattr('services.orderers', 'defined') | first).organization.name | lower }}-net"
 
 # Check if genesis-admin-msp-certs ConfigMap exists in peer namespace
 - name: "Check if genesis-admin-msp-certs ConfigMap exists in {{ namespace }}"
