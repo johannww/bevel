@@ -13,9 +13,9 @@
 # Find the orderer organization namespace
 - name: "Get orderer organization namespace"
   set_fact:
-    orderer_namespace: "{{ item.name | lower }}-net"
-  loop: "{{ network.organizations }}"
-  when: item.type == 'orderer'
+    orderer_query: "organizations[?type=='orderer']"
+    orderer_org: "{{ network | json_query(orderer_query) | first }}"
+    orderer_namespace: "{{ (network | json_query(orderer_query) | first).name | lower }}-net"
 
 # Check if genesis-admin-msp-certs ConfigMap exists in peer namespace
 - name: "Check if genesis-admin-msp-certs ConfigMap exists in {{ namespace }}"
