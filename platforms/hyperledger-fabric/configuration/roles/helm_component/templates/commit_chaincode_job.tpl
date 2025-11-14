@@ -54,7 +54,7 @@ spec:
       sequence: {{ component_chaincode.sequence | default('1') }}
       commitarguments: {{ component_chaincode.arguments | default('') | quote }}
       endorsementpolicies: {{ component_chaincode.endorsements | default('') | quote }}
-      initrequired: {{ component_chaincode.init_required }}
+      initrequired: {{ component_chaincode.init_required | default('false') }}
 {% if component_chaincode.repository is defined %}
       repository:
         hostname: "{{ component_chaincode.repository.url.split('/')[0] | lower }}"
