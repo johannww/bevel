@@ -225,12 +225,12 @@ spec:
           elif [ ${CC_RUNTIME_LANGUAGE} = "node" ]
           then
             ## Copying desired chaincode to a location relative to $GOPATH/src
-            mkdir -p $GOPATH/src/github.com/chaincode
-            cp -R /tmp/chaincode/{{ $.Values.chaincode.repository.path }}/* $GOPATH/src/github.com/chaincode/
+            mkdir -p $GOPATH/src/github.com/chaincode/${CHAINCODE_NAME}
+            cp -R /tmp/chaincode/{{ $.Values.chaincode.repository.path }}/* $GOPATH/src/github.com/chaincode/${CHAINCODE_NAME}/
 
             # Install Node.js dependencies
             echo "Installing Node.js dependencies..."
-            cd $GOPATH/src/github.com/chaincode/${CHAINCODE_NAME}/${CHAINCODE_MAINDIR}
+            cd $GOPATH/src/github.com/chaincode/${CHAINCODE_NAME}
             
             # Check if package.json exists and install dependencies
             if [ -f "package.json" ]; then
@@ -251,8 +251,12 @@ spec:
               fi
             fi
 
-            #chaincode path
-            CC_SRC_PATH="${GOPATH}/src/github.com/chaincode/${CHAINCODE_NAME}/${CHAINCODE_MAINDIR}"
+            #chaincode path - use current directory if CHAINCODE_MAINDIR is ".", otherwise append it
+            if [ "${CHAINCODE_MAINDIR}" = "." ]; then
+              CC_SRC_PATH="${GOPATH}/src/github.com/chaincode/${CHAINCODE_NAME}"
+            else
+              CC_SRC_PATH="${GOPATH}/src/github.com/chaincode/${CHAINCODE_NAME}/${CHAINCODE_MAINDIR}"
+            fi
           fi
           version1_4=`echo $NETWORK_VERSION | grep -c 1.4`
           if [ $version1_4 = 1 ];then
