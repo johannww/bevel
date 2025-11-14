@@ -11,9 +11,12 @@
 
 ---
 # Find the orderer organization namespace
-- name: "Get orderer organization namespace"
+- name: "Get orderer organization"
   set_fact:
     orderer_query: "organizations[?type=='orderer']"
+
+- name: "Set orderer namespace"
+  set_fact:
     orderer_org: "{{ network | json_query(orderer_query) | first }}"
     orderer_namespace: "{{ (network | json_query(orderer_query) | first).name | lower }}-net"
 
