@@ -228,6 +228,29 @@ spec:
             mkdir -p $GOPATH/src/github.com/chaincode
             cp -R /tmp/chaincode/{{ $.Values.chaincode.repository.path }}/* $GOPATH/src/github.com/chaincode/
 
+            # Install Node.js dependencies
+            echo "Installing Node.js dependencies..."
+            cd $GOPATH/src/github.com/chaincode/${CHAINCODE_NAME}/${CHAINCODE_MAINDIR}
+            
+            # Check if package.json exists and install dependencies
+            if [ -f "package.json" ]; then
+              # Install npm if not present
+              if ! command -v npm &> /dev/null; then
+                echo "npm not found, installing Node.js..."
+                packages_to_install="nodejs npm"
+                install_packages "$packages_to_install"
+              fi
+              
+              echo "Running npm install..."
+              npm install --production
+              
+              # Build TypeScript if tsconfig.json exists
+              if [ -f "tsconfig.json" ]; then
+                echo "TypeScript project detected, running build..."
+                npm run build || echo "No build script found or build failed, continuing..."
+              fi
+            fi
+
             #chaincode path
             CC_SRC_PATH="${GOPATH}/src/github.com/chaincode/${CHAINCODE_NAME}/${CHAINCODE_MAINDIR}"
           fi
