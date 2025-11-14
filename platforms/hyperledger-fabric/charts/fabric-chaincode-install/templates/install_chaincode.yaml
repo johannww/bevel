@@ -235,19 +235,8 @@ spec:
             
             # Check if package.json exists and install dependencies
             if [ -f "package.json" ]; then
-              # Install npm if not present
-              if ! command -v npm &> /dev/null; then
-                echo "npm not found, installing Node.js..."
-                # Install Node.js 18.x from NodeSource repository
-                packages_to_install="curl"
-                install_packages "$packages_to_install"
-                curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
-                packages_to_install="nodejs"
-                install_packages "$packages_to_install"
-              fi
-              
               echo "Running npm install..."
-              npm install --production
+              npm install
               
               # Build TypeScript if tsconfig.json exists
               if [ -f "tsconfig.json" ]; then
