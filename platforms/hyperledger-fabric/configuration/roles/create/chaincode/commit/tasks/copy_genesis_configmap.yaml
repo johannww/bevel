@@ -10,15 +10,10 @@
 ##############################################################################################
 
 ---
-# Find the orderer organization namespace
-- name: "Get orderer organization"
-  set_fact:
-    orderer_query: "organizations[?type=='orderer']"
-
+# Set orderer namespace directly
 - name: "Set orderer namespace"
   set_fact:
-    orderer_org: "{{ network | json_query(orderer_query) | first }}"
-    orderer_namespace: "{{ (network | json_query(orderer_query) | first).name | lower }}-net"
+    orderer_namespace: "{{ (network | json_query('organizations[?type==`orderer`]') | first).name | lower }}-net"
 
 # Check if genesis-admin-msp-certs ConfigMap exists in peer namespace
 - name: "Check if genesis-admin-msp-certs ConfigMap exists in {{ namespace }}"
