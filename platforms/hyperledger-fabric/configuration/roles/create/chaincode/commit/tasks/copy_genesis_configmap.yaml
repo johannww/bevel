@@ -23,7 +23,7 @@
     kind: ConfigMap
     namespace: "{{ namespace }}"
     name: genesis-admin-msp-certs
-    kubeconfig: "{{ kubernetes.config_file }}"
+    kubeconfig: "{{ org.k8s.config_file }}"
   register: peer_configmap_check
 
 # Get the genesis-admin-msp-certs ConfigMap from orderer namespace if it doesn't exist in peer namespace
@@ -32,7 +32,7 @@
     kind: ConfigMap
     namespace: "{{ orderer_namespace }}"
     name: genesis-admin-msp-certs
-    kubeconfig: "{{ kubernetes.config_file }}"
+    kubeconfig: "{{ org.k8s.config_file }}"
   register: orderer_configmap
   when: peer_configmap_check.resources | length == 0
 
@@ -40,7 +40,7 @@
 - name: "Copy genesis-admin-msp-certs ConfigMap to {{ namespace }}"
   k8s:
     state: present
-    kubeconfig: "{{ kubernetes.config_file }}"
+    kubeconfig: "{{ org.k8s.config_file }}"
     definition:
       apiVersion: v1
       kind: ConfigMap
