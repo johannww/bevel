@@ -73,15 +73,15 @@ spec:
         image: registry.k8s.io/external-dns/external-dns:v{{ network.env.external_dns_version | default('0.14.0') }}
         args:
         - --source=ingress
-        - --source=service
         - --domain-filter={{ primary_domain }}
         - --provider=cloudflare
 {% if network.env.cloudflare_proxied is defined and network.env.cloudflare_proxied | bool %}
         - --cloudflare-proxied
 {% endif %}
         - --policy={{ network.env.external_dns_policy | default('sync') }}
-        - --log-level={{ network.env.external_dns_log_level | default('info') }}
+        - --log-level={{ network.env.external_dns_log_level | default('debug') }}
         - --interval={{ network.env.external_dns_interval | default('1m') }}
+        - --ignore-ingress-tls-spec
         env:
         - name: CF_API_TOKEN
           valueFrom:
