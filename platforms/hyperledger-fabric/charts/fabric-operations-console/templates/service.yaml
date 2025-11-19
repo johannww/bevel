@@ -69,6 +69,9 @@ metadata:
   namespace:  {{ $.Values.metadata.namespace }}
   annotations:
     kubernetes.io/ingress.class: "haproxy"
+{{- if eq $.Values.proxy.external_url_suffix $.Values.proxy.external_url_suffix }}
+    external-dns.alpha.kubernetes.io/hostname: {{ $.Values.service.name }}.{{ $.Values.metadata.namespace }}.{{ $.Values.proxy.external_url_suffix }}
+{{- end }}
 spec:
   rules:
   - host: {{ $.Values.service.name }}.{{ $.Values.metadata.namespace }}.{{ $.Values.proxy.external_url_suffix }}

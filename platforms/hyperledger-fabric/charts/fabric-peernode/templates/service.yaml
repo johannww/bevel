@@ -105,6 +105,10 @@ kind: Ingress
 metadata:
   name: {{ .Release.Name }}-ops
   namespace:  {{ .Release.Namespace }}
+  annotations:
+{{- if eq .Values.global.proxy.externalUrlSuffix .Values.global.proxy.externalUrlSuffix }}
+    external-dns.alpha.kubernetes.io/hostname: {{ .Release.Name }}-ops.{{ .Release.Namespace }}.{{ .Values.global.proxy.externalUrlSuffix }}
+{{- end }}
 spec:
   ingressClassName: "haproxy"
   rules:
