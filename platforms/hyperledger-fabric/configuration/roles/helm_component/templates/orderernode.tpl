@@ -35,6 +35,7 @@ spec:
       proxy:
         provider: {{ network.env.proxy | quote }}
         externalUrlSuffix: {{ org.external_url_suffix }}
+        externalIp: {{ network.env.proxy_external_ip | quote }}
 
     storage:
       enabled: {{ sc_enabled | default('false') }}
