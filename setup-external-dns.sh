@@ -22,8 +22,8 @@ if [ ! -f "/home/hedlund01/bevel-fixes/build/network.yaml" ]; then
 fi
 
 # Extract DNS provider from network.yaml
-DNS_PROVIDER=$(grep -A 5 "env:" /home/hedlund01/bevel-fixes/build/network.yaml | grep "external_dns_provider:" | awk '{print $2}')
-EXTERNAL_DNS_ENABLED=$(grep -A 5 "env:" /home/hedlund01/bevel-fixes/build/network.yaml | grep "external_dns:" | awk '{print $2}')
+DNS_PROVIDER=$(grep -A 10 "env:" /home/hedlund01/bevel-fixes/build/network.yaml | grep "external_dns_provider:" | awk '{print $2}')
+EXTERNAL_DNS_ENABLED=$(grep -A 10 "env:" /home/hedlund01/bevel-fixes/build/network.yaml | grep "external_dns:" | awk '{print $2}')
 
 if [ "$EXTERNAL_DNS_ENABLED" != "enabled" ]; then
     echo "External DNS is not enabled in network.yaml"
