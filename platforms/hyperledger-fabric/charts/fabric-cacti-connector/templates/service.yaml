@@ -38,6 +38,7 @@ metadata:
     ingress.kubernetes.io/ssl-passthrough: "true"
 {{- if eq $.Values.proxy.external_url $.Values.proxy.external_url }}
     external-dns.alpha.kubernetes.io/hostname: {{ .Release.Name }}-svc.{{ .Values.proxy.external_url }}
+    external-dns.alpha.kubernetes.io/target: "{{ $.Values.proxy.external_ip }}"
 {{- end }}
 spec:
   rules:

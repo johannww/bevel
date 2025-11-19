@@ -60,6 +60,7 @@ metadata:
     ingress.kubernetes.io/ssl-passthrough: "true"
 {{- if eq .Values.global.proxy.externalUrlSuffix .Values.global.proxy.externalUrlSuffix }}
     external-dns.alpha.kubernetes.io/hostname: {{ .Release.Name }}.{{ .Release.Namespace }}.{{ .Values.global.proxy.externalUrlSuffix }},{{ .Release.Name }}-proxy.{{ .Release.Namespace }}.{{ .Values.global.proxy.externalUrlSuffix }}
+    external-dns.alpha.kubernetes.io/target: "{{ .Values.global.proxy.externalIp }}"
 {{- end }}
 spec:
   ingressClassName: "haproxy"
@@ -93,18 +94,7 @@ metadata:
   annotations:
 {{- if eq .Values.global.proxy.externalUrlSuffix .Values.global.proxy.externalUrlSuffix }}
     external-dns.alpha.kubernetes.io/hostname: {{ .Release.Name }}-ops.{{ .Release.Namespace }}.{{ .Values.global.proxy.externalUrlSuffix }}
+    external-dns.alpha.kubernetes.io/target: "{{ .Values.global.proxy.externalIp }}"
 {{- end }}
 spec:
   ingressClassName: "haproxy"
-  rules:  
-  - host: {{ .Release.Name }}-ops.{{ .Release.Namespace }}.{{ .Values.global.proxy.externalUrlSuffix }}
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: {{ .Release.Name }}
-            port:
-              number: 9443
-{{ end }}

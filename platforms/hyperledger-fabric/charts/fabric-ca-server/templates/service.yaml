@@ -47,6 +47,7 @@ metadata:
     ingress.kubernetes.io/ssl-passthrough: "true"
 {{- if eq .Values.global.proxy.externalUrlSuffix .Values.global.proxy.externalUrlSuffix }}
     external-dns.alpha.kubernetes.io/hostname: ca.{{ .Release.Namespace }}.{{ .Values.global.proxy.externalUrlSuffix }}
+    external-dns.alpha.kubernetes.io/target: "{{ .Values.global.proxy.externalIp }}"
 {{- end }}
 spec:
   ingressClassName: "haproxy"
@@ -70,6 +71,7 @@ metadata:
   annotations:
 {{- if eq .Values.global.proxy.externalUrlSuffix .Values.global.proxy.externalUrlSuffix }}
     external-dns.alpha.kubernetes.io/hostname: ca-ops.{{ .Release.Namespace }}.{{ .Values.global.proxy.externalUrlSuffix }}
+    external-dns.alpha.kubernetes.io/target: "{{ .Values.global.proxy.externalIp }}"
 {{- end }}
 spec:
   ingressClassName: "haproxy"
