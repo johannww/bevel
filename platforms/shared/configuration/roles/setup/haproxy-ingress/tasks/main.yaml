@@ -33,6 +33,18 @@
   tags:
     - haproxy
 
+# Add external IP to HAProxy service for minikube deployments
+- name: Add external IP to HAProxy service
+  shell: |
+    KUBECONFIG={{ kubeconfig_path }} kubectl patch svc haproxy-ingress -n ingress-controller -p '{"spec":{"externalIPs":["{{ network.env.proxy_external_ip }}"]}}'
+  tags:
+    - haproxy
+  when: 
+    - network.env.proxy_external_ip is defined
+    - network.env.proxy_external_ip != ""
+    - network.cloud_provider is defined
+    - network.cloud_provider == "minikube"
+
 # Update external_dns with correct annotations
 - name: Enable external DNS for wildcard domains
   shell: |
