@@ -76,7 +76,9 @@ spec:
         - --source=service
         - --domain-filter={{ primary_domain }}
         - --provider=cloudflare
-        - --cloudflare-proxied={{ network.env.cloudflare_proxied | default('false') }}
+{% if network.env.cloudflare_proxied is defined and network.env.cloudflare_proxied | bool %}
+        - --cloudflare-proxied
+{% endif %}
         - --policy={{ network.env.external_dns_policy | default('sync') }}
         - --log-level={{ network.env.external_dns_log_level | default('info') }}
         - --interval={{ network.env.external_dns_interval | default('1m') }}
