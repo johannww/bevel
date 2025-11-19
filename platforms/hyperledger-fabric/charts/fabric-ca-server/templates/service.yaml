@@ -51,6 +51,9 @@ metadata:
 {{- end }}
 spec:
   ingressClassName: "haproxy"
+  tls:
+  - hosts:
+    - ca.{{ .Release.Namespace }}.{{ .Values.global.proxy.externalUrlSuffix }}
   rules:
   - host: ca.{{ .Release.Namespace }}.{{ .Values.global.proxy.externalUrlSuffix }}
     http:
