@@ -72,7 +72,10 @@ metadata:
   name: {{ .Release.Name }}
   namespace:  {{ .Release.Namespace }}
   annotations:
-    ingress.kubernetes.io/ssl-passthrough: "true"  
+    ingress.kubernetes.io/ssl-passthrough: "true"
+{{- if eq .Values.global.proxy.externalUrlSuffix .Values.global.proxy.externalUrlSuffix }}
+    external-dns.alpha.kubernetes.io/hostname: {{ .Release.Name }}.{{ .Release.Namespace }}.{{ .Values.global.proxy.externalUrlSuffix }},{{ .Release.Name }}-proxy.{{ .Release.Namespace }}.{{ .Values.global.proxy.externalUrlSuffix }}
+{{- end }}
 spec:
   ingressClassName: "haproxy"
   rules:
