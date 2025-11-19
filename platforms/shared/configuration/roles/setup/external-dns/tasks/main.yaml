@@ -32,12 +32,14 @@
 - name: Set DNS provider facts
   set_fact:
     dns_provider: "{{ network.env.external_dns_provider | default('cloudflare') }}"
-    dns_domain: "{{ item.external_url_suffix | regex_replace('^[^.]+\\.', '') }}"
+    dns_domain: "{{ organization.external_url_suffix | regex_replace('^[^.]+\\.', '') }}"
   loop: "{{ network.organizations }}"
+  loop_control:
+    loop_var: organization
   when: 
     - network.env.external_dns is defined
     - network.env.external_dns == 'enabled'
-    - item.external_url_suffix is defined
+    - organization.external_url_suffix is defined
   register: dns_facts
 
 # Get unique domain (should be same for all orgs)
@@ -126,6 +128,13 @@
     - network.env.external_dns == 'enabled'
     - dns_provider == 'google'
     - gcp_secret.resources | length == 0
+
+# Ensures the build directory
+- name: "Creating the build directory"
+  include_role:
+    name: "{{ playbook_dir }}/../../shared/configuration/roles/check/directory"
+  vars:
+    path: "{{ playbook_dir }}/build"
 
 # Create External DNS deployment from template
 - name: Create External DNS deployment manifest

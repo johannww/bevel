@@ -78,9 +78,6 @@ spec:
         - --provider=cloudflare
         - --cloudflare-proxied={{ network.env.cloudflare_proxied | default('false') }}
         - --policy={{ network.env.external_dns_policy | default('sync') }}
-        - --registry=txt
-        - --txt-owner-id={{ network.env.external_dns_owner_id | default('bevel-fabric-network') }}
-        - --txt-prefix=external-dns-
         - --log-level={{ network.env.external_dns_log_level | default('info') }}
         - --interval={{ network.env.external_dns_interval | default('1m') }}
         env:
