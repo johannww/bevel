@@ -49,7 +49,10 @@
         namespace: "{{ org.name | lower }}-net"
       data:
         cacert: "{{ tls_cert_data.resources[0].data['cacert'] }}"
-  when: org.orderer_org != org.name
+  when: 
+    - org.orderer_org != org.name
+    - tls_cert_data.resources is defined
+    - tls_cert_data.resources | length > 0
 
 # Set Variable sc_name
 - name: "Set Variable sc_name"
